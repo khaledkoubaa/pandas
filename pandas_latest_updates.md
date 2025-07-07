@@ -6,23 +6,23 @@ This document summarizes the key updates in pandas version 2.3.0, as documented 
 
 ### `StringDtype` Enhancements
 
-**説明 (Explanation):**
+**Explanation:**
 Pandas 2.3.0 brings several enhancements to `StringDtype` and its operations, improving consistency and functionality, especially when interacting with PyArrow.
 
-1.  **`Series.str.decode()` の `dtype` 引数 (New `dtype` argument for `Series.str.decode()`):**
+1.  **New `dtype` argument for `Series.str.decode()`:**
     *   `Series.str.decode()` now has a `dtype` argument to control the output data type.
     *   When `future.infer_string` is `True`, `Series.str.decode()` will now result in `StringDtype`.
 
-2.  **`to_hdf()` と `StringDtype` のラウンドトリップ (Roundtrip of `StringDtype` with `to_hdf()`):**
+2.  **Roundtrip of `StringDtype` with `to_hdf()`:**
     *   `to_hdf()` now correctly round-trips data with `StringDtype`.
 
-3.  **`StringDtype` の累積演算 (Cumulative operations for `StringDtype`):**
+3.  **Cumulative operations for `StringDtype`:**
     *   `cumsum()`, `cummin()`, and `cummax()` reductions are now implemented for `StringDtype` columns.
 
-4.  **`StringDtype` の合計 (`sum()`) 演算 (Sum reduction for `StringDtype`):**
+4.  **Sum reduction for `StringDtype`:**
     *   The `sum()` reduction is now implemented for `StringDtype` columns.
 
-**コード例 (Code Example):**
+**Code Example:**
 ```python
 import pandas as pd
 
@@ -44,7 +44,7 @@ print(f"Cumsum of StringDtype Series:\n{s_str.cumsum()}")
 # dtype: string
 ```
 
-**📝 チートシート (Cheat Sheet):**
+**📝 Cheat Sheet:**
 -   **`Series.str.decode()`:** Gains `dtype` argument; returns `StringDtype` if `future.infer_string=True`. ⚙️
 -   **`to_hdf()`:** Improved `StringDtype` round-tripping. 💾
 -   **Cumulative Ops:** `cumsum()`, `cummin()`, `cummax()` now work with `StringDtype`. ➕➖
@@ -52,10 +52,10 @@ print(f"Cumsum of StringDtype Series:\n{s_str.cumsum()}")
 
 ### Improved NumPy >= 2 Compatibility
 
-**説明 (Explanation):**
+**Explanation:**
 The semantics for the `copy` keyword in `__array__` methods (used in `np.array()` or `np.asarray()`) have been updated for correct behavior with NumPy version 2 and above. This enhances the interoperability between pandas and the newer versions of NumPy.
 
-**コード例 (Code Example):**
+**Code Example:**
 ```python
 import pandas as pd
 import numpy as np
@@ -66,16 +66,16 @@ s = pd.Series([1, 2, 3])
 # np.asarray(s, copy=False) # This will now more reliably avoid a copy
 #                          # if underlying data allows, per NumPy 2's NEP 51.
 ```
-**📝 チートシート (Cheat Sheet):**
+**📝 Cheat Sheet:**
 -   **`__array__` methods:** Updated `copy` keyword semantics for NumPy >= 2. 🤝
 -   **Benefit:** More predictable copy/view behavior when converting pandas objects to NumPy arrays. ✨
 
 ### API Changes with `future.infer_string`
 
-**説明 (Explanation):**
+**Explanation:**
 When the `future.infer_string` option is enabled, `Index` set operations (like `union` or `intersection`) will now ignore the `dtype` of an empty `RangeIndex` or an empty `Index` with `object` dtype when determining the resulting `Index`'s `dtype`.
 
-**📝 チートシート (Cheat Sheet):**
+**📝 Cheat Sheet:**
 -   **`Index` set operations:** Behavior change with `future.infer_string=True` for empty `RangeIndex`/`object` dtype `Index`. 🔀
 -   **Impact:** More consistent `dtype` inference for `Index` operations under this future flag.
 
