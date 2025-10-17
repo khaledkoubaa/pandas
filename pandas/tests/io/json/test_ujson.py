@@ -663,6 +663,25 @@ class TestUltraJSONTests:
         assert ujson.__name__ == "pandas._libs.json"
 
 
+def test_to_json_table_orient_with_default_handler():
+    # GH 52636
+    df = DataFrame(
+        [[Timestamp("20130101"), Timestamp("20130102")]],
+        columns=["start", "end"],
+    )
+    result = df.to_json(
+        orient="table",
+        default_handler=lambda x: x.strftime("%Y-%m-%d"),
+    )
+    expected = (
+        '{"schema":{"fields":[{"name":"index","type":"integer"},'
+        '{"name":"start","type":"string"},{"name":"end","type":"string"}],'
+        '"primaryKey":["index"],"pandas_version":"1.4.0"},'
+        '"data":[{"index":0,"start":"2013-01-01","end":"2013-01-02"}]}'
+    )
+    assert result == expected
+
+
 class TestNumpyJSONTests:
     @pytest.mark.parametrize("bool_input", [True, False])
     def test_bool(self, bool_input):

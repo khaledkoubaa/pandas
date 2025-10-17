@@ -347,13 +347,15 @@ class JSONTableWriter(FrameWriter):
             indent=indent,
         )
 
-        if date_format != "iso":
-            msg = (
-                "Trying to write with `orient='table'` and "
-                f"`date_format='{date_format}'`. Table Schema requires dates "
-                "to be formatted with `date_format='iso'`"
-            )
-            raise ValueError(msg)
+        if default_handler is None:
+            if date_format != "iso":
+                msg = (
+                    "Trying to write with `orient='table'` and "
+                    f"`date_format='{date_format}'`. Table Schema requires "
+                    "dates to be formatted with `date_format='iso'`"
+                )
+                raise ValueError(msg)
+            self.date_format = "iso"
 
         self.schema = build_table_schema(obj, index=self.index)
         if self.index:
@@ -389,7 +391,6 @@ class JSONTableWriter(FrameWriter):
                     obj = obj.copy(deep=False)
                 obj.index = obj.index.to_timestamp()
             self.obj = obj.reset_index(drop=False)
-        self.date_format = "iso"
         self.orient = "records"
         self.index = index
 
