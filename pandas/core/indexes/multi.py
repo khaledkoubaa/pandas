@@ -2561,10 +2561,14 @@ class MultiIndex(Index):
         ----------
         i : int, str, default -2
             First level of index to be swapped. Can pass level name as string.
-            Type of parameters can be mixed.
+            Type of parameters can be mixed. Negative values are supported,
+            which reference the position relative to the end of the levels.
+            By default, the last two levels of the MultiIndex are swapped.
         j : int, str, default -1
             Second level of index to be swapped. Can pass level name as string.
-            Type of parameters can be mixed.
+            Type of parameters can be mixed. Negative values are supported,
+            which reference the position relative to the end of the levels.
+            By default, the last two levels of the MultiIndex are swapped.
 
         Returns
         -------
